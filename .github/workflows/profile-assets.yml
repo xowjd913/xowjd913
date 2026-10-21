@@ -1,0 +1,38 @@
+name: Profile assets
+
+on:
+  schedule:
+    - cron: "0 15 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: Platane/snk/svg-only@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          github_token: ${{ secrets.METRICS_TOKEN }}
+          outputs: |
+            dist/snake.svg
+            dist/snake-dark.svg?palette=github-dark
+
+      # METRICS_TOKEN must be able to read private repositories to count private work.
+      - run: python3 scripts/stats.py dist/stats.svg
+        env:
+          GH_TOKEN: ${{ secrets.METRICS_TOKEN }}
+
+      - uses: crazy-max/ghaction-github-pages@v4
+        with:
+          target_branch: output
+          build_dir: dist
+          jekyll: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
