@@ -36,6 +36,8 @@
 | 🏢 **Agent Office** | A pixel-art office that shows what each agent is doing in real time |
 | 📏 **Shared Rules** | One rule repository keeps model choice, PR format and review scope consistent across projects |
 
+<p align="center"><img src="assets/agent-office.gif" alt="Agent Office: live view of the agent team" width="800" /></p>
+
 <br/>
 
 <picture>
