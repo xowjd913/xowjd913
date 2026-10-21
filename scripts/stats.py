@@ -58,16 +58,18 @@ rest = 100 - sum(p for _, p, _ in langs)
 if rest > 0.05:
     langs.append(("Other", rest, "#8b949e"))
 
+NEON = ["#ff4fd8", "#3ee8ff", "#c9a3ff", "#9a7fd1", "#6f5a9e", "#4a3d6b"]
+VALUE = ["#ff4fd8", "#3ee8ff", "#ff4fd8"]
 W, x = 495, 25.0
 bar = ""
-for _, pct, color in langs:
+for i, (_, pct, _) in enumerate(langs):
     w = (W - 50) * pct / 100
-    bar += f'<rect x="{x:.1f}" y="118" width="{w:.1f}" height="8" fill="{color}"/>'
+    bar += f'<rect x="{x:.1f}" y="120" width="{w:.1f}" height="8" fill="{NEON[i]}"/>'
     x += w
 legend = ""
-for i, (name, pct, color) in enumerate(langs[:5]):
-    cx, cy = 25 + (i % 3) * 150, 148 + (i // 3) * 20
-    legend += f'<circle cx="{cx + 5}" cy="{cy}" r="5" fill="{color}"/><text x="{cx + 15}" y="{cy + 4}" class="l">{name} {pct:.1f}%</text>'
+for i, (name, pct, _) in enumerate(langs[:5]):
+    cx, cy = 25 + (i % 3) * 150, 150 + (i // 3) * 20
+    legend += f'<rect x="{cx}" y="{cy - 6}" width="10" height="10" rx="2" fill="{NEON[i]}"/><text x="{cx + 16}" y="{cy + 3}" class="l">{name} {pct:.1f}%</text>'
 stats = [
     (f"{total:,}", "Contributions", f"{min(active)} – {max(active)}" if active else "-"),
     (f'{viewer["pullRequests"]["totalCount"]:,}', "Pull Requests", "authored"),
@@ -76,14 +78,16 @@ stats = [
 cells = ""
 for i, (value, title, sub) in enumerate(stats):
     cx = 25 + i * 150
-    cells += f'<text x="{cx}" y="62" class="v">{value}</text><text x="{cx}" y="82" class="t">{title}</text><text x="{cx}" y="98" class="s">{sub}</text>'
+    cells += f'<text x="{cx}" y="64" class="v" fill="{VALUE[i]}" filter="url(#g)">{value}</text><text x="{cx}" y="84" class="t">{title}</text><text x="{cx}" y="100" class="s">{sub}</text>'
 
 font = "'Segoe UI',Ubuntu,sans-serif"
 svg = f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="195" viewBox="0 0 {W} 195">
-<style>.h{{font:600 15px {font};fill:#58a6ff}}.v{{font:700 24px {font};fill:#e6edf3}}.t{{font:500 12px {font};fill:#c9d1d9}}.s{{font:400 11px {font};fill:#8b949e}}.l{{font:400 11px {font};fill:#c9d1d9}}</style>
-<rect x="0.5" y="0.5" width="{W - 1}" height="194" rx="6" fill="#0d1117" stroke="#30363d"/>
-<text x="25" y="30" class="h">GitHub Activity · including private work</text>
-{cells}<clipPath id="r"><rect x="25" y="118" width="{W - 50}" height="8" rx="4"/></clipPath><g clip-path="url(#r)">{bar}</g>{legend}
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a0f2e"/><stop offset="1" stop-color="#0b0618"/></linearGradient>
+<filter id="g" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+<style>.h{{font:700 13px {font};fill:#ff7be5;letter-spacing:2px}}.v{{font:800 26px {font}}}.t{{font:600 12px {font};fill:#e8dcff}}.s{{font:400 11px {font};fill:#9a8cc0}}.l{{font:400 11px {font};fill:#d6ccf0}}</style>
+<rect x="1" y="1" width="{W - 2}" height="193" rx="10" fill="url(#bg)" stroke="#ff4fd8" stroke-opacity=".7" stroke-width="1.5"/>
+<text x="25" y="30" class="h" filter="url(#g)">GITHUB ACTIVITY · INCL. PRIVATE</text>
+{cells}<clipPath id="r"><rect x="25" y="120" width="{W - 50}" height="8" rx="4"/></clipPath><g clip-path="url(#r)" filter="url(#g)">{bar}</g>{legend}
 </svg>
 """
 with open(OUT, "w") as f:
