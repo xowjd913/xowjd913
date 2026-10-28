@@ -21,8 +21,8 @@ jobs:
           github_user_name: ${{ github.repository_owner }}
           github_token: ${{ secrets.METRICS_TOKEN }}
           outputs: |
-            dist/snake.svg?color_snake=#7a2fd0&color_dots=#efe6ff,#e0b8ff,#c37dff,#a04bf0,#ff4fd8
-            dist/snake-dark.svg?color_snake=#3ee8ff&color_dots=#1c1233,#4a1f7a,#8a2fd6,#d43cf0,#ff4fd8
+            dist/snake.svg?color_snake=#b8aa00&color_dots=#e6fbfd,#b3f6fb,#66eef7,#00d4e0,#00a3b0
+            dist/snake-dark.svg?color_snake=#fcee0a&color_dots=#0d1a2b,#0e3a5c,#007f8f,#00c4d4,#00f0ff
 
       # METRICS_TOKEN must be able to read private repositories to count private work.
       - run: python3 scripts/stats.py dist/stats.svg

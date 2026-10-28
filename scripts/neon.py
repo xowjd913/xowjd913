@@ -4,10 +4,10 @@ from xml.sax.saxutils import escape
 
 OUT = os.path.join(os.path.dirname(__file__), "..", "assets")
 FONT = "'Segoe UI',Ubuntu,sans-serif"
-# Two-tone palette: pink and cyan only, so the page stays calm.
-NEON = ["#ff4fd8", "#3ee8ff"]
+# Two-tone palette matching the agent office theme: cyan and neon yellow only.
+NEON = ["#00f0ff", "#fcee0a"]
 W = 830
-DEFS = """<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a0f2e"/><stop offset="1" stop-color="#0b0618"/></linearGradient>
+DEFS = """<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d0a24"/><stop offset="1" stop-color="#07060f"/></linearGradient>
 <filter id="g" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>"""
 
 FEATURED = [
@@ -53,7 +53,7 @@ def grid(name, items, card_h, draw):
         body += f'<rect x="{x:.1f}" y="{y}" width="{card_w - 2:.1f}" height="{card_h}" rx="10" fill="url(#bg)" stroke="{color}" stroke-opacity=".75" stroke-width="1.5"/>'
         body += f'<rect x="{x + 14:.1f}" y="{y + 16}" width="3" height="{card_h - 32}" rx="1.5" fill="{color}" filter="url(#g)"/>'
         body += draw(x + 30, y, color, item)
-    write(name, height, f"""<style>.n{{font:700 17px {FONT}}}.p{{font:600 12px {FONT};fill:#e8dcff}}.s{{font:400 12px {FONT};fill:#9a8cc0}}.h{{font:800 14px {FONT};letter-spacing:2px}}.d{{font:400 12.5px {FONT};fill:#d6ccf0}}</style>{body}""")
+    write(name, height, f"""<style>.n{{font:700 17px {FONT}}}.p{{font:600 12px {FONT};fill:#cfd8ff}}.s{{font:400 12px {FONT};fill:#8f9cc8}}.h{{font:800 14px {FONT};letter-spacing:2px}}.d{{font:400 12.5px {FONT};fill:#cfd8ff}}</style>{body}""")
 
 
 def featured(x, y, color, item):
