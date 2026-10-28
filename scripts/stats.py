@@ -58,8 +58,8 @@ rest = 100 - sum(p for _, p, _ in langs)
 if rest > 0.05:
     langs.append(("Other", rest, "#8b949e"))
 
-NEON = ["#ff4fd8", "#3ee8ff", "#c9a3ff", "#9a7fd1", "#6f5a9e", "#4a3d6b"]
-VALUE = ["#ff4fd8", "#3ee8ff", "#ff4fd8"]
+NEON = ["#00f0ff", "#fcee0a", "#9ffaff", "#7b86ff", "#8f9cc8", "#6b78a8"]
+VALUE = ["#00f0ff", "#fcee0a", "#00f0ff"]
 W, x = 495, 25.0
 bar = ""
 for i, (_, pct, _) in enumerate(langs):
@@ -82,10 +82,10 @@ for i, (value, title, sub) in enumerate(stats):
 
 font = "'Segoe UI',Ubuntu,sans-serif"
 svg = f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="195" viewBox="0 0 {W} 195">
-<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a0f2e"/><stop offset="1" stop-color="#0b0618"/></linearGradient>
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d0a24"/><stop offset="1" stop-color="#07060f"/></linearGradient>
 <filter id="g" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-<style>.h{{font:700 13px {font};fill:#ff7be5;letter-spacing:2px}}.v{{font:800 26px {font}}}.t{{font:600 12px {font};fill:#e8dcff}}.s{{font:400 11px {font};fill:#9a8cc0}}.l{{font:400 11px {font};fill:#d6ccf0}}</style>
-<rect x="1" y="1" width="{W - 2}" height="193" rx="10" fill="url(#bg)" stroke="#ff4fd8" stroke-opacity=".7" stroke-width="1.5"/>
+<style>.h{{font:700 13px {font};fill:#9ffaff;letter-spacing:2px}}.v{{font:800 26px {font}}}.t{{font:600 12px {font};fill:#cfd8ff}}.s{{font:400 11px {font};fill:#8f9cc8}}.l{{font:400 11px {font};fill:#cfd8ff}}</style>
+<rect x="1" y="1" width="{W - 2}" height="193" rx="10" fill="url(#bg)" stroke="#00f0ff" stroke-opacity=".7" stroke-width="1.5"/>
 <text x="25" y="30" class="h" filter="url(#g)">GITHUB ACTIVITY · INCL. PRIVATE</text>
 {cells}<clipPath id="r"><rect x="25" y="120" width="{W - 50}" height="8" rx="4"/></clipPath><g clip-path="url(#r)" filter="url(#g)">{bar}</g>{legend}
 </svg>
