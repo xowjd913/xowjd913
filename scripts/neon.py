@@ -1,14 +1,14 @@
-"""Render the static neon cards (section titles, featured work, AI workflow) into assets/."""
+"""Render the static slate cards (section titles, featured work, AI workflow) into assets/."""
 import os
 from xml.sax.saxutils import escape
 
 OUT = os.path.join(os.path.dirname(__file__), "..", "assets")
 FONT = "'Segoe UI',Ubuntu,sans-serif"
-# Two-tone palette for the profile cyberpunk theme: cyan and neon yellow only.
-NEON = ["#00f0ff", "#fcee0a"]
+# Two-tone palette for the profile slate theme: slate blue and soft teal only.
+NEON = ["#7ea6e0", "#9bc4b4"]
 W = 830
-DEFS = """<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d0a24"/><stop offset="1" stop-color="#07060f"/></linearGradient>
-<filter id="g" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>"""
+DEFS = """<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1e2432"/><stop offset="1" stop-color="#171c28"/></linearGradient>
+<filter id="g" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="1.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>"""
 
 FEATURED = [
     ("Mascoz", "Windows", "Unity 6 · VRM · MediaPipe"),
@@ -53,7 +53,7 @@ def grid(name, items, card_h, draw, top=0, pre="", css=""):
         body += f'<rect x="{x:.1f}" y="{y}" width="{card_w - 2:.1f}" height="{card_h}" rx="10" fill="url(#bg)" stroke="{color}" stroke-opacity=".75" stroke-width="1.5"/>'
         body += f'<rect x="{x + 14:.1f}" y="{y + 16}" width="3" height="{card_h - 32}" rx="1.5" fill="{color}" filter="url(#g)"/>'
         body += draw(x + 30, y, color, item)
-    write(name, height, f"""<style>.n{{font:700 17px {FONT}}}.p{{font:600 12px {FONT};fill:#cfd8ff}}.s{{font:400 12px {FONT};fill:#8f9cc8}}.h{{font:800 14px {FONT};letter-spacing:2px}}.d{{font:400 12.5px {FONT};fill:#cfd8ff}}{css}</style>{pre}{body}""")
+    write(name, height, f"""<style>.n{{font:700 17px {FONT}}}.p{{font:600 12px {FONT};fill:#dde3ee}}.s{{font:400 12px {FONT};fill:#97a3b8}}.h{{font:800 14px {FONT};letter-spacing:2px}}.d{{font:400 12.5px {FONT};fill:#dde3ee}}{css}</style>{pre}{body}""")
 
 
 def featured(x, y, color, item):
@@ -71,18 +71,18 @@ def workflow(x, y, color, item):
     return out
 
 
-FLOW_CSS = (f".f{{font:800 13px {FONT};letter-spacing:1.5px}}.m{{font:400 11px {FONT};fill:#8f9cc8}}"
-            ".l{fill:none;stroke:#8f9cc8;stroke-width:1.5}")
+FLOW_CSS = (f".f{{font:800 13px {FONT};letter-spacing:1.5px}}.m{{font:400 11px {FONT};fill:#97a3b8}}"
+            ".l{fill:none;stroke:#97a3b8;stroke-width:1.5}")
 
 
 def flow():
     """Top strip: YOU -> PO -> LEADER -> WORKER + REVIEWER."""
     out = ('<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">'
-           '<path d="M0 1 L9 5 L0 9 z" fill="#8f9cc8"/></marker>'
+           '<path d="M0 1 L9 5 L0 9 z" fill="#97a3b8"/></marker>'
            f'<rect x="1" y="1" width="{W - 2}" height="76" rx="10" fill="url(#bg)" stroke="{NEON[0]}" stroke-opacity=".35" stroke-width="1.5"/>')
 
     def box(x, y, w, h, color):
-        return f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="8" fill="#07060f" stroke="{color}" stroke-opacity=".75" stroke-width="1.5"/>'
+        return f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="8" fill="#171c28" stroke="{color}" stroke-opacity=".75" stroke-width="1.5"/>'
 
     for x, w, name, sub, color in [(24, 120, "YOU", "request & verify", NEON[1]),
                                    (194, 120, "PO", "plans & triages", NEON[0]),
