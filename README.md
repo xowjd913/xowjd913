@@ -27,7 +27,7 @@
 
 <br/><br/>
 
-<p align="center"><img src="assets/herdr-team.gif" alt="Herdr agent team: PO, leader and agent list" width="830" /></p>
+<p align="center"><img src="assets/herdr-team.gif" alt="Herdr agent team: PO, leader and agent list, PRs, timeline and file panel" width="830" /></p>
 
 <p align="center">Herdr panels I built: <a href="https://github.com/xowjd913/agent-mods">agent-mods</a></p>
 
