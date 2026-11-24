@@ -35,4 +35,4 @@
 
 <img src="assets/title-ai.svg" alt="How I Build with AI" />
 
-<img src="assets/ai.svg" alt="Flow from me to PO, leader, worker and reviewer; human in the loop, cost-aware models, independent review, shared rules" />
+<img src="assets/ai.svg" alt="Flow from me to a PO that manages several leaders, each with its own worker and reviewer; human in the loop, cost-aware models, independent review, shared rules" />
