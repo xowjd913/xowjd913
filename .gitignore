@@ -1,0 +1,3 @@
+# Local agent worktree folders (e.g. 13-gitignore/, review-13/)
+[0-9]*-*/
+review-*/
