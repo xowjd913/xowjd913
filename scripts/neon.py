@@ -75,29 +75,43 @@ FLOW_CSS = (f".f{{font:800 13px {FONT};letter-spacing:1.5px}}.m{{font:400 11px {
             ".l{fill:none;stroke:#97a3b8;stroke-width:1.5}")
 
 
+FLOW_H = 190
+LEADERS = 3
+
+
 def flow():
-    """Top strip: YOU -> PO -> LEADER -> WORKER + REVIEWER."""
+    """Top strip: YOU -> PO -> several LEADERs, each with its own WORKER + REVIEWER."""
     out = ('<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">'
            '<path d="M0 1 L9 5 L0 9 z" fill="#97a3b8"/></marker>'
-           f'<rect x="1" y="1" width="{W - 2}" height="76" rx="10" fill="url(#bg)" stroke="{NEON[0]}" stroke-opacity=".35" stroke-width="1.5"/>')
+           f'<rect x="1" y="1" width="{W - 2}" height="{FLOW_H - 2}" rx="10" fill="url(#bg)" stroke="{NEON[0]}" stroke-opacity=".35" stroke-width="1.5"/>')
 
     def box(x, y, w, h, color):
         return f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="8" fill="#171c28" stroke="{color}" stroke-opacity=".75" stroke-width="1.5"/>'
 
-    for x, w, name, sub, color in [(24, 120, "YOU", "request & verify", NEON[1]),
-                                   (194, 120, "PO", "plans & triages", NEON[0]),
-                                   (364, 140, "LEADER", "splits into issues", NEON[1])]:
-        c = x + w // 2
-        out += box(x, 17, w, 44, color)
-        out += f'<text x="{c}" y="36" text-anchor="middle" class="f" fill="{color}" filter="url(#g)">{name}</text>'
-        out += f'<text x="{c}" y="52" text-anchor="middle" class="m">{escape(sub)}</text>'
-    out += ('<path class="l" d="M148 39 H190" marker-end="url(#a)"/><path class="l" d="M318 39 H360" marker-end="url(#a)"/>'
-            '<path class="l" d="M508 39 H548 M548 23 V55"/>'
-            '<path class="l" d="M548 23 H600" marker-end="url(#a)"/><path class="l" d="M548 55 H600" marker-end="url(#a)"/>')
-    for y, name, sub, color in [(9, "WORKER", "implements", NEON[0]), (41, "REVIEWER", "reviews PRs", NEON[1])]:
-        out += box(604, y, 210, 28, color)
-        out += f'<text x="620" y="{y + 18}" class="f" fill="{color}" filter="url(#g)">{name}</text>'
-        out += f'<text x="722" y="{y + 18}" class="m">{sub}</text>'
+    def label(c, y, name, sub, color):
+        return (f'<text x="{c}" y="{y + 19}" text-anchor="middle" class="f" fill="{color}" filter="url(#g)">{name}</text>'
+                f'<text x="{c}" y="{y + 35}" text-anchor="middle" class="m">{escape(sub)}</text>')
+
+    pitch, top, bh = 56, 15, 48
+    mid = top + (LEADERS - 1) * pitch / 2 + bh / 2  # vertical centre of the leader column
+    my = int(mid - bh / 2)
+    for x, w, name, sub, color in [(24, 110, "YOU", "request & verify", NEON[1]),
+                                   (164, 154, "PO", "plans & manages leaders", NEON[0])]:
+        out += box(x, my, w, bh, color) + label(x + w // 2, my, name, sub, color)
+    out += f'<path class="l" d="M138 {mid:.0f} H160" marker-end="url(#a)"/>'
+    bus = 336
+    ys = [top + i * pitch for i in range(LEADERS)]
+    out += f'<path class="l" d="M318 {mid:.0f} H{bus} M{bus} {ys[0] + bh // 2} V{ys[-1] + bh // 2}"/>'
+    for i, y in enumerate(ys):
+        c = y + bh // 2
+        out += f'<path class="l" d="M{bus} {c} H352" marker-end="url(#a)"/>'
+        out += box(356, y, 130, bh, NEON[1]) + label(421, y, f"LEADER {i + 1}", "splits into issues", NEON[1])
+        out += f'<path class="l" d="M490 {c} H510 M510 {y + 11} V{y + 37}"/>'
+        for dy, name, sub, color in [(0, "WORKER", "implements", NEON[0]), (26, "REVIEWER", "reviews PRs", NEON[1])]:
+            out += f'<path class="l" d="M510 {y + dy + 11} H532" marker-end="url(#a)"/>'
+            out += box(536, y + dy, 276, 22, color)
+            out += f'<text x="552" y="{y + dy + 15}" class="f" fill="{color}" filter="url(#g)">{name}</text>'
+            out += f'<text x="660" y="{y + dy + 15}" class="m">{sub}</text>'
     return out
 
 
@@ -105,5 +119,5 @@ os.makedirs(OUT, exist_ok=True)
 title("title-featured.svg", "FEATURED WORK", NEON[0])
 title("title-ai.svg", "HOW I BUILD WITH AI", NEON[1])
 grid("featured.svg", FEATURED, 88, featured)
-grid("ai.svg", AI, 92, workflow, top=90, pre=flow(), css=FLOW_CSS)
+grid("ai.svg", AI, 92, workflow, top=FLOW_H + 14, pre=flow(), css=FLOW_CSS)
 print("neon assets written")
